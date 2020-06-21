@@ -20,9 +20,9 @@ class Optimizer extends MetaTags
      */
     public function optimize(
         string $title,
-        string $description,
-        string $url,
-        string $image,
+        ?string $description = null,
+        ?string $url = null,
+        ?string $image = null,
         bool $follow = true
     ): Optimizer {
         $this->data($title, $description, $url, $image);

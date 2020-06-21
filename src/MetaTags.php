@@ -2,6 +2,8 @@
 
 namespace ThallesDella\Optimizer;
 
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 use SimpleXMLIterator;
 use stdClass;
 
@@ -21,7 +23,7 @@ class MetaTags
 
     /** @var array */
     protected $tags = ["property" => "og", "name" => "twitter"];
-
+    
     /**
      * MetaTags constructor.
      */
@@ -29,7 +31,7 @@ class MetaTags
     {
         $this->meta = new SimpleXMLIterator("<meta/>");
     }
-
+    
     /**
      * @param $name
      * @param $value
@@ -39,10 +41,10 @@ class MetaTags
         if (empty($this->data)) {
             $this->data = new stdClass();
         }
-
+    
         $this->data->$name = $value;
     }
-
+    
     /**
      * @param $name
      * @return bool
@@ -51,7 +53,7 @@ class MetaTags
     {
         return isset($this->data->$name);
     }
-
+    
     /**
      * @param $name
      * @return null|string
@@ -60,7 +62,7 @@ class MetaTags
     {
         return ($this->data->$name ?? null);
     }
-
+    
     /**
      * @param string|null $title
      * @param string|null $desc
@@ -70,11 +72,11 @@ class MetaTags
      */
     public function data(string $title = null, string $desc = null, string $url = null, string $image = null): ?object
     {
-        (!$title ?: $this->title = $title);
-        (!$desc ?: $this->description = $desc);
-        (!$url ?: $this->url = $url);
-        (!$image ?: $this->image = $image);
-
+        (!$title ? : $this->title = $title . ' | ' . Config::get('optimizer.name'));
+        (!$desc ? Config::get('optimizer.description') : $this->description = $desc);
+        (!$url ? route(Route::currentRouteName()) : $this->url = $url);
+        (!$image ? Config::get('optimizer.image') : $this->image = $image);
+    
         return $this->data;
     }
     
@@ -85,21 +87,21 @@ class MetaTags
     {
         return $this->meta;
     }
-
+    
     /**
      * @return string
      */
     public function render(): string
     {
         $render = '';
-
+    
         for ($this->meta->rewind(); $this->meta->valid(); $this->meta->next()) {
             $render .= $this->meta->current()->asXML();
         }
-
+    
         return urldecode($render);
     }
-
+    
     /**
      * @param bool $sort
      * @return array
@@ -107,14 +109,14 @@ class MetaTags
     public function debug(bool $sort = true): array
     {
         $debug = explode("&", implode(">&<", explode("><", $this->render())));
-
+    
         if ($sort) {
             rsort($debug);
         }
-
+    
         return $debug;
     }
-
+    
     /**
      * @param string $meta
      * @param array $attributes
@@ -127,7 +129,7 @@ class MetaTags
             $add->addAttribute("content", $content);
         }
     }
-
+    
     /**
      * @param string $tagName
      * @param string $tagContent
@@ -136,7 +138,7 @@ class MetaTags
     {
         $this->meta->addChild($tagName, $tagContent);
     }
-
+    
     /**
      * @param string $rel
      * @param string $href
@@ -147,7 +149,7 @@ class MetaTags
         $link->addAttribute("rel", $rel);
         $link->addAttribute("href", $href);
     }
-
+    
     /**
      * @param string $string
      * @return string
