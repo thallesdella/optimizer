@@ -14,14 +14,14 @@ class OptimizerServiceProvider extends ServiceProvider
         });
     
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/config/optimizer.php', 'optimizer'
+            dirname(__DIR__, 2) . '/config/optimizer.php', 'optimizer'
         );
     }
     
     public function boot()
     {
         $this->publishes([
-            dirname(__DIR__) . '/config/optimizer.php' => config_path('optimizer.php'),
+            dirname(__DIR__, 2) . '/config/optimizer.php' => config_path('optimizer.php'),
         ]);
     }
 }
