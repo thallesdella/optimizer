@@ -1,19 +1,22 @@
 <?php
 
-namespace CoffeeCode\Optimizer;
+namespace ThallesDella\Optimizer;
+
+use SimpleXMLIterator;
+use stdClass;
 
 /**
  * Class CoffeeCode MetaTags
  *
- * @author Robson V. Leite <https://github.com/robsonvleite>
+ * @author  Robson V. Leite <https://github.com/robsonvleite>
  * @package CoffeeCode\Optimizer
  */
 class MetaTags
 {
-    /** @var \SimpleXMLIterator */
+    /** @var SimpleXMLIterator */
     protected $meta;
-
-    /** @var \stdClass */
+    
+    /** @var stdClass */
     protected $data;
 
     /** @var array */
@@ -24,7 +27,7 @@ class MetaTags
      */
     public function __construct()
     {
-        $this->meta = new \SimpleXMLIterator("<meta/>");
+        $this->meta = new SimpleXMLIterator("<meta/>");
     }
 
     /**
@@ -34,7 +37,7 @@ class MetaTags
     public function __set($name, $value)
     {
         if (empty($this->data)) {
-            $this->data = new \stdClass();
+            $this->data = new stdClass();
         }
 
         $this->data->$name = $value;
@@ -74,11 +77,11 @@ class MetaTags
 
         return $this->data;
     }
-
+    
     /**
-     * @return \SimpleXMLIterator
+     * @return SimpleXMLIterator
      */
-    public function meta(): \SimpleXMLIterator
+    public function meta(): SimpleXMLIterator
     {
         return $this->meta;
     }

@@ -1,5 +1,5 @@
 {
-  "name": "coffeecode/optimizer",
+  "name": "thallesdella/optimizer",
   "description": "Optimizer makes it easy to bookmark your site tags, open graph and twitter card",
   "keywords": [
     "CoffeeCode",
@@ -11,22 +11,44 @@
     "Twitter Card",
     "Facebook Tags"
   ],
-  "homepage": "http://www.upinside.com.br",
   "license": "MIT",
   "authors": [
     {
       "name": "Robson V. Leite",
       "email": "cursos@upinside.com.br",
+      "homepage": "http://www.upinside.com.br",
+      "role": "Developer"
+    },
+    {
+      "name": "Thalles D. Koester",
+      "email": "thallesdella@gmail.com.br",
+      "homepage": "https://www.bunana.com.br",
       "role": "Developer"
     }
   ],
   "require": {
     "php": "^7.2",
-    "ext-simplexml": "*"
+    "ext-simplexml": "*",
+    "illuminate/support": "^7.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ThallesDella\\Optimizer\\Test\\": "tests"
+    }
   },
   "autoload": {
     "psr-4": {
-      "CoffeeCode\\Optimizer\\": "src"
+      "ThallesDella\\Optimizer\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "ThallesDella\\Optimizer\\Providers\\OptimizerServiceProvider"
+      ],
+      "aliases": {
+        "Optimizer": "ThallesDella\\Optimizer\\Facades\\Optimizer"
+      }
     }
   }
 }

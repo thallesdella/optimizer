@@ -1,11 +1,11 @@
 <?php
 
-namespace CoffeeCode\Optimizer;
+namespace ThallesDella\Optimizer;
 
 /**
  * Class CoffeeCode Optimizer
  *
- * @author Robson V. Leite <https://github.com/robsonvleite>
+ * @author  Robson V. Leite <https://github.com/robsonvleite>
  * @package CoffeeCode\Optimizer
  */
 class Optimizer extends MetaTags
