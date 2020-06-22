@@ -72,10 +72,10 @@ class MetaTags
      */
     public function data(string $title = null, string $desc = null, string $url = null, string $image = null): ?object
     {
-        (!$title ? : $this->title = $title . ' | ' . Config::get('optimizer.name'));
-        (!$desc ? Config::get('optimizer.description') : $this->description = $desc);
-        (!$url ? route(Route::currentRouteName()) : $this->url = $url);
-        (!$image ? Config::get('optimizer.image') : $this->image = $image);
+        (!$title ? : $this->title = $title);
+        (!$desc ?:$this->description = $desc);
+        (!$url ?: $this->url = $url);
+        (!$image ?: $this->image = $image);
     
         return $this->data;
     }

@@ -12,7 +12,7 @@ class OptimizerServiceProvider extends ServiceProvider
         $this->app->bind('Optimizer', function () {
             return new Optimizer();
         });
-    
+        
         $this->mergeConfigFrom(
             dirname(__DIR__, 2) . '/config/optimizer.php', 'optimizer'
         );

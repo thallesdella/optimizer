@@ -2,6 +2,9 @@
 
 namespace ThallesDella\Optimizer;
 
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
+
 /**
  * Class CoffeeCode Optimizer
  *
@@ -25,6 +28,10 @@ class Optimizer extends MetaTags
         ?string $image = null,
         bool $follow = true
     ): Optimizer {
+        $description = ($description ?? Config::get('optimizer.description'));
+        $url = ($url ?? route(Route::currentRouteName()));
+        $image = ($image ?? Config::get('optimizer.image'));
+        
         $this->data($title, $description, $url, $image);
 
         $title = $this->filter($title);
