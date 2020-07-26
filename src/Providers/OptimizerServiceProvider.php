@@ -37,9 +37,9 @@ class OptimizerServiceProvider extends ServiceProvider
                 Config::get('optimizer.fb.page', null),
                 Config::get('optimizer.fb.author', null)
             );
-            
-            if (Config::get('optimizer.fb.id', false)) {
-                OptimizerFacade::facebook(Config::get('optimizer.fb.id'));
+    
+            if (Config::get('optimizer.fb.app', false)) {
+                OptimizerFacade::facebook(Config::get('optimizer.fb.app'));
             } elseif (Config::get('optimizer.fb.admins', false)) {
                 OptimizerFacade::facebook(null, Config::get('optimizer.fb.admins'));
             }
