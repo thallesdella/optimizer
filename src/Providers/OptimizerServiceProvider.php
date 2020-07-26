@@ -26,12 +26,6 @@ class OptimizerServiceProvider extends ServiceProvider
             dirname(__DIR__, 2) . '/config/optimizer.php' => config_path('optimizer.php'),
         ]);
     
-        OptimizerFacade::openGraph(
-            Config::get('optimizer.site.name', Config::get('app.name')),
-            $this->app->getLocale(),
-            Config::get('optimizer.site.schema', 'article')
-        );
-    
         if (Config::get('optimizer.fb.auto', false)) {
             OptimizerFacade::publisher(
                 Config::get('optimizer.fb.page', null),
@@ -45,14 +39,14 @@ class OptimizerServiceProvider extends ServiceProvider
             }
         }
         
-        if (Config::get('optimizer.twitter.auto', false)) {
+        /*if (Config::get('optimizer.twitter.auto', false)) {
             OptimizerFacade::twitterCard(
                 Config::get('optimizer.twitter.creator', null),
                 Config::get('optimizer.site.name', null),
                 Config::get('url', null),
                 Config::get('optimizer.twitter.card', 'summary_large_image')
             );
-        }
+        }*/
         
     }
 }
