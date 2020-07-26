@@ -4,7 +4,7 @@ namespace ThallesDella\Optimizer\Providers;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use ThallesDella\Optimizer\Optimizer;
+use ThallesDella\Optimizer\Facades\Optimizer;
 
 class OptimizerServiceProvider extends ServiceProvider
 {
