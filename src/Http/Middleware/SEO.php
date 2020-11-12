@@ -3,7 +3,6 @@
 namespace ThallesDella\Optimizer\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use ThallesDella\Optimizer\Facades\Optimizer;
 
@@ -18,12 +17,12 @@ class SEO
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
+     * @param         $request
      * @param Closure $next
      *
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next)
     {
         $this->openGraph();
         $this->facebookPublisher();
