@@ -28,9 +28,9 @@ class Optimizer extends MetaTags
         ?string $image = null,
         bool $follow = true
     ): Optimizer {
-        $description = ($description ?? Config::get('optimizer.description'));
+        $description = ($description ?? Config::get('seo.description'));
         $url = ($url ?? route(Route::currentRouteName()));
-        $image = ($image ?? Config::get('optimizer.image'));
+        $image = ($image ?? Config::get('seo.image'));
         
         $this->data($title, $description, $url, $image);
 
