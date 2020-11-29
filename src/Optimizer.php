@@ -3,7 +3,7 @@
 namespace ThallesDella\Optimizer;
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Class CoffeeCode Optimizer
@@ -14,11 +14,12 @@ use Illuminate\Support\Facades\Route;
 class Optimizer extends MetaTags
 {
     /**
-     * @param string $title
-     * @param string $description
-     * @param string $url
-     * @param string $image
-     * @param bool $follow
+     * @param string      $title
+     * @param string|null $description
+     * @param string|null $url
+     * @param string|null $image
+     * @param bool        $follow
+     *
      * @return Optimizer
      */
     public function optimize(
@@ -27,21 +28,22 @@ class Optimizer extends MetaTags
         ?string $url = null,
         ?string $image = null,
         bool $follow = true
-    ): Optimizer {
+    ): Optimizer
+    {
         $description = ($description ?? Config::get('seo.description'));
-        $url = ($url ?? route(Route::currentRouteName()));
-        $image = ($image ?? Config::get('seo.image'));
-        
+        $url = ($url ?? Request::url());
+        $image = ($image ?? asset(Config::get('seo.image')));
+    
         $this->data($title, $description, $url, $image);
-
+    
         $title = $this->filter($title);
         $description = $this->filter($description);
-
+    
         $this->buildTag("title", $title);
         $this->buildMeta("name", ["description" => $description]);
         $this->buildMeta("name", ["robots" => ($follow ? "index, follow" : "noindex, nofollow")]);
         $this->buildLink("canonical", $url);
-
+    
         foreach ($this->tags as $meta => $prefix) {
             $this->buildMeta($meta, [
                 "{$prefix}:title" => $title,
@@ -50,20 +52,21 @@ class Optimizer extends MetaTags
                 "{$prefix}:image" => $image
             ]);
         }
-
+    
         $this->buildMeta("itemprop", [
             "name" => $title,
             "description" => $description,
             "url" => $url,
             "image" => $image
         ]);
-
+    
         return $this;
     }
-
+    
     /**
-     * @param string $fbPage
+     * @param string      $fbPage
      * @param string|null $fbAuthor
+     *
      * @return Optimizer
      */
     public function publisher(string $fbPage, string $fbAuthor = null): Optimizer
@@ -71,63 +74,67 @@ class Optimizer extends MetaTags
         $this->buildMeta("property", [
             "article:publisher" => "https://www.facebook.com/{$fbPage}"
         ]);
-
+    
         if ($fbAuthor) {
             $this->buildMeta("property", [
                 "article:author" => "https://www.facebook.com/{$fbAuthor}"
             ]);
         }
-
+    
         return $this;
     }
-
+    
     /**
      * @param string $siteName
      * @param string $locale
      * @param string $schema
+     *
      * @return Optimizer
      */
     public function openGraph(string $siteName, string $locale = "pt_BR", string $schema = "article"): Optimizer
     {
         $prefix = "og";
         $siteName = $this->filter($siteName);
-
+    
         $this->buildMeta("property", [
             "{$prefix}:type" => $schema,
             "{$prefix}:site_name" => $siteName,
             "{$prefix}:locale" => $locale
         ]);
-
+    
         return $this;
     }
-
+    
     /**
-     * @param string $creator
-     * @param string $site
-     * @param string $domain
+     * @param string      $creator
+     * @param string      $site
+     * @param string      $domain
      * @param string|null $card
+     *
      * @return Optimizer
      */
     public function twitterCard(string $creator, string $site, string $domain, string $card = null): Optimizer
     {
         $prefix = "twitter";
         $card = ($card ?? "summary_large_image");
-
+    
         $this->buildMeta("name", [
             "{$prefix}:card" => $card,
             "{$prefix}:site" => $site,
             "{$prefix}:creator" => $creator,
             "{$prefix}:domain" => $domain
         ]);
-
+    
         return $this;
     }
-
+    
     /**
      * Você deve usar UM ou OUTRO, se for usar $appid deixe o $admins em null.
      * Mas se for usar $admins, então deixe o $appid em null.
+     *
      * @param string|null $appId
-     * @param array|null $admins
+     * @param array|null  $admins
+     *
      * @return Optimizer
      */
     public function facebook(string $appId = null, array $admins = null): Optimizer
@@ -138,7 +145,7 @@ class Optimizer extends MetaTags
             $fb->addAttribute("content", $appId);
             return $this;
         }
-
+    
         if (!empty($admins) && is_array($admins)) {
             foreach ($admins as $admin) {
                 $fb = $this->meta->addChild("meta");
@@ -146,7 +153,7 @@ class Optimizer extends MetaTags
                 $fb->addAttribute("content", $admin);
             }
         }
-
+    
         return $this;
     }
 }

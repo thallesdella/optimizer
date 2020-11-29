@@ -22,7 +22,7 @@ return [
     | 1200 x 630 px for a full size banner.
     |
     */
-    'image' => url(asset('images/share.png')),
+    'image' => 'images/share.png',
     
     'twitter' => [
         
